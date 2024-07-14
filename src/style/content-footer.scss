@@ -1,0 +1,43 @@
+@use 'variables' as *;
+
+.footer {
+    grid-area: 'footer';
+    align-self: end;
+    background-color: white;
+    height: 4.31rem;
+    box-shadow: 0 -0.25rem 0.5rem rgb(0, 0, 0, .25);
+
+    display: flex;
+    justify-content: center;
+
+    &__text {
+        font-family: $open-sans;
+
+        &__title {
+            font-size: 1.5rem;
+
+            & span {
+                color: #08A6E4;
+            }
+        }
+
+        &__subtitle {
+            font-size: 0.75rem;
+            color: #656565;
+        }
+    }
+
+    &__linkedin {
+        display: flex;
+        align-items: center;
+    }
+
+    &__container {
+        width: 80%;
+        max-width: 90ch;
+        display: grid;
+        grid-template-columns: 1fr 6%;
+        justify-content: center;
+        align-items: center;
+    }
+}
