@@ -1,0 +1,14 @@
+.home {
+    margin: 1rem 1.88rem;
+    display: grid;
+    width: 95%;
+    max-width: 120ch;
+    
+    &__length {
+        width: 32.5%;
+    }
+
+    &__item {
+        width: 32.5%;
+    }
+}

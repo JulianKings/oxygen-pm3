@@ -1,0 +1,46 @@
+.photo {
+  width: 100%;
+  position: relative;
+}
+.photo:hover .photo__bookmark {
+  top: -0.75rem;
+}
+.photo img {
+  width: 100%;
+  margin-bottom: 0.5rem;
+  border-radius: 0.19rem;
+  transition: transform 0.3s ease-in-out;
+}
+.photo img:hover {
+  box-shadow: 0.25rem 0.25rem 0.3rem rgba(0, 0, 0, 0.25);
+  transform: scale(1.03);
+}
+.photo__bookmark {
+  position: absolute;
+  right: 0.4rem;
+  top: -0.45rem;
+  cursor: pointer;
+  z-index: 13;
+  transition: top 0.3s ease-in-out;
+}
+.photo__bookmark img {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.photo__download {
+  position: absolute;
+  right: 0.3rem;
+  bottom: 1rem;
+  background-color: white;
+  height: 1rem;
+  border-radius: 0.25rem;
+  box-shadow: 0.13rem 0.13rem 0.13rem rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  z-index: 14;
+}
+.photo__download img {
+  width: 1rem;
+  height: 1rem;
+}
+
+/*# sourceMappingURL=photo.css.map */
