@@ -1,0 +1,63 @@
+.information {
+  margin-top: 2.1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 3.5rem;
+}
+.information__carousel {
+  position: relative;
+  width: 100%;
+  max-width: 150ch;
+}
+.information__carousel__main {
+  position: relative;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 35%;
+}
+.information__carousel__main img {
+  width: 100%;
+  border-radius: 0.56rem;
+}
+.information__description {
+  margin-top: 2rem;
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+}
+.information__details {
+  margin-top: 0.9rem;
+  color: white;
+  display: flex;
+  gap: 1.5rem;
+}
+.information__details__width, .information__details__height, .information__details__calendar {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.information__actions {
+  margin-top: 0.9rem;
+  color: white;
+  display: flex;
+  gap: 1.5rem;
+}
+.information__actions__item {
+  background-color: #2B1834;
+  box-shadow: 0.2rem 0.2rem 0.4rem rgba(0, 0, 0, 0.25);
+  color: white;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.25rem 0.35rem;
+  align-items: center;
+  border-radius: 0.38rem;
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+}
+.information__actions__item:hover {
+  transform: scale(1.05);
+}
+
+/*# sourceMappingURL=information.css.map */

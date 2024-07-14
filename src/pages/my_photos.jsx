@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react';
-import '../style/home.css';
-import Masonry from 'masonry-layout';
 import Photo from '../components/photo';
+import '../style/my_photos.css';
+import Masonry from 'masonry-layout';
 
-function Home()
+function MyPhotos()
 {
-    const homeContainer = useRef(null);
+    const myPhotosContainer = useRef(null);
     let masonry = useRef(null);
 
     const mockPhoto = {
@@ -13,7 +13,7 @@ function Home()
         "created_at": "2016-05-03T11:00:28-04:00",
         "updated_at": "2016-07-10T11:00:01-05:00",
         "width": 244,
-        "height": 326,
+        "height": 356,
         "color": "#6E633A",
         "blur_hash": "LFC$yHwc8^$yIAS$%M%00KxukYIp",
         "downloads": 1345,
@@ -33,7 +33,7 @@ function Home()
         "created_at": "2016-05-03T11:00:28-04:00",
         "updated_at": "2016-07-10T11:00:01-05:00",
         "width": 244,
-        "height": 126,
+        "height": 196,
         "color": "#6E633A",
         "blur_hash": "LFC$yHwc8^$yIAS$%M%00KxukYIp",
         "downloads": 1345,
@@ -53,7 +53,7 @@ function Home()
         "created_at": "2016-05-03T11:00:28-04:00",
         "updated_at": "2016-07-10T11:00:01-05:00",
         "width": 244,
-        "height": 526,
+        "height": 626,
         "color": "#6E633A",
         "blur_hash": "LFC$yHwc8^$yIAS$%M%00KxukYIp",
         "downloads": 1345,
@@ -69,9 +69,9 @@ function Home()
     }
 
     useEffect(() => {
-        masonry.current = new Masonry('.home', {
-            itemSelector: '.home__item',
-            columnWidth: '.home__length',
+        masonry.current = new Masonry('.my_photos', {
+            itemSelector: '.my_photos__item',
+            columnWidth: '.my_photos__length',
             gutter: 10,
             percentPosition: true,
         })
@@ -79,34 +79,34 @@ function Home()
     }, []);
 
     return <>
-        <section ref={homeContainer} className='home'>
-            <div className='home__length'></div>
-            <div className='home__item'>
-                <Photo key={mockPhoto.id} photo={mockPhoto} />
+        <section ref={myPhotosContainer} className='my_photos'>
+            <div className='my_photos__length'></div>
+            <div className='my_photos__item'>
+                <Photo key={mockPhoto.id} photo={mockPhoto} myPhotos={true} />
             </div>
 
-            <div className='home__item'>
-                <Photo key={mockPhoto2.id} photo={mockPhoto2} />
+            <div className='my_photos__item'>
+                <Photo key={mockPhoto2.id} photo={mockPhoto2} myPhotos={true} />
             </div>
 
-            <div className='home__item'>
-                <Photo key={mockPhoto3.id} photo={mockPhoto3} />
+            <div className='my_photos__item'>
+                <Photo key={mockPhoto3.id} photo={mockPhoto3} myPhotos={true} />
             </div>
 
-            <div className='home__item'>
-                <Photo key={mockPhoto2.id} photo={mockPhoto3} />
+            <div className='my_photos__item'>
+                <Photo key={mockPhoto2.id} photo={mockPhoto3} myPhotos={true} />
             </div>
 
-            <div className='home__item'>
-                <Photo key={mockPhoto3.id} photo={mockPhoto3} />
+            <div className='my_photos__item'>
+                <Photo key={mockPhoto3.id} photo={mockPhoto3} myPhotos={true} />
             </div>
 
-            <div className='home__item'>
-                <Photo key={mockPhoto.id} photo={mockPhoto2} />
+            <div className='my_photos__item'>
+                <Photo key={mockPhoto.id} photo={mockPhoto2} myPhotos={true} />
             </div>
             
         </section>
     </>;
 }
 
-export default Home;
+export default MyPhotos;
