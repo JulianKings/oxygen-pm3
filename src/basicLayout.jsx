@@ -5,19 +5,24 @@ import myPhotosImage from './assets/photos.png';
 import cameraImage from './assets/camera-icon.png';
 import linkedInImage from './assets/linkedin.png';
 import { getNextQuote } from './util/quoteManager';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 function BasicLayout()
 {
     const quote = getNextQuote();
+    const navigate = useNavigate();
 
     return <>
         <header className='header'>
             <nav className='header__menu'>
                 <div className='header__menu__item header__menu__item--title'><img src={cameraImage} alt='Camera Icon' /><span>Oxygen</span>pics</div>
-                <nav className='header__menu__item'><img src={homeImage} alt='Home' /> Home</nav>
+                <nav className='header__menu__item' onClick={() => {
+                    navigate('/');
+                }}><img src={homeImage} alt='Home' /> Home</nav>
                 <nav className='header__menu__item'><img src={searchSettingsImage} alt='Search settings' /> Search Settings</nav>
-                <nav className='header__menu__item'><img src={myPhotosImage} alt='My photos' />My Photos</nav>
+                <nav className='header__menu__item' onClick={() => {
+                    navigate('/my_photos');
+                }}><img src={myPhotosImage} alt='My photos' />My Photos</nav>
             </nav>
 
             <div className='header__quote'>

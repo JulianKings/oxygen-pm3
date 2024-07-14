@@ -1,14 +1,14 @@
-.home {
+.my_photos {
   margin: 1rem 1.88rem;
   display: grid;
   width: 95%;
   max-width: 150ch;
 }
-.home__length {
+.my_photos__length {
   width: 32.5%;
 }
-.home__item {
+.my_photos__item {
   width: 32.5%;
 }
 
-/*# sourceMappingURL=home.css.map */
+/*# sourceMappingURL=my_photos.css.map */
