@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import './style/content.css';
 import searchSettingsImage from './assets/search-settings.png';
 import homeImage from './assets/home.png';
@@ -6,11 +7,14 @@ import cameraImage from './assets/camera-icon.png';
 import linkedInImage from './assets/linkedin.png';
 import { getNextQuote } from './util/quoteManager';
 import { Outlet, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { updateSearchQuery } from './redux/slices/searchSlice';
 
 function BasicLayout()
 {
     const quote = getNextQuote();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     return <>
         <header className='header'>
@@ -30,7 +34,11 @@ function BasicLayout()
             </div>
 
             <div className='header__search_bar'>
-                <input type='text' id='search-bar' className='header__search_bar__input' placeholder='Search images...' />
+                <input type='text' id='search-bar' className='header__search_bar__input' placeholder='Search images...'
+                    onChange={(event) => {
+                        const vSearchQuery = event.target.value;
+                        dispatch(updateSearchQuery(vSearchQuery));
+                    }} />
                 <span></span>
             </div>
         </header>

@@ -1,72 +1,32 @@
-import { useEffect, useRef } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Fragment, useEffect, useRef } from 'react';
 import '../style/home.css';
 import Masonry from 'masonry-layout';
 import Photo from '../components/photo';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchImages, selectSearchQuery, selectSearchResult, selectSearchStatus } from '../redux/slices/searchSlice';
+import { updateSearchItems } from '../redux/slices/searchSlice';
 
 function Home()
 {
     const homeContainer = useRef(null);
     let masonry = useRef(null);
 
-    const mockPhoto = {
-        "id": "Dwu85P9SOIk",
-        "created_at": "2016-05-03T11:00:28-04:00",
-        "updated_at": "2016-07-10T11:00:01-05:00",
-        "width": 244,
-        "height": 326,
-        "color": "#6E633A",
-        "blur_hash": "LFC$yHwc8^$yIAS$%M%00KxukYIp",
-        "downloads": 1345,
-        "likes": 24,
-        "description": "A man drinking a coffee.",
-        "urls": {
-            "raw": "https://images.unsplash.com/photo-1417325384643-aac51acc9e5d",
-            "full": "https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg",
-            "regular": "https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=1080&fit=max",
-            "small": "https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max",
-            "thumb": "https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=200&fit=max"
-        },
-    }
+    const dispatch = useDispatch();
+    const searchQuery = useSelector(selectSearchQuery);
+    const searchStatus = useSelector(selectSearchStatus);
+    const searchResult = useSelector(selectSearchResult);
 
-    const mockPhoto2 = {
-        "id": "Dwu85P9SOIk",
-        "created_at": "2016-05-03T11:00:28-04:00",
-        "updated_at": "2016-07-10T11:00:01-05:00",
-        "width": 244,
-        "height": 126,
-        "color": "#6E633A",
-        "blur_hash": "LFC$yHwc8^$yIAS$%M%00KxukYIp",
-        "downloads": 1345,
-        "likes": 24,
-        "description": "A man drinking a coffee.",
-        "urls": {
-            "raw": "https://images.unsplash.com/photo-1417325384643-aac51acc9e5d",
-            "full": "https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg",
-            "regular": "https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=1080&fit=max",
-            "small": "https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max",
-            "thumb": "https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=200&fit=max"
-        },
-    }
+    useEffect(() => {
+        dispatch(fetchImages(searchQuery));
+    }, [searchQuery])
 
-    const mockPhoto3 = {
-        "id": "Dwu85P9SOIk",
-        "created_at": "2016-05-03T11:00:28-04:00",
-        "updated_at": "2016-07-10T11:00:01-05:00",
-        "width": 244,
-        "height": 526,
-        "color": "#6E633A",
-        "blur_hash": "LFC$yHwc8^$yIAS$%M%00KxukYIp",
-        "downloads": 1345,
-        "likes": 24,
-        "description": "A man drinking a coffee.",
-        "urls": {
-            "raw": "https://images.unsplash.com/photo-1417325384643-aac51acc9e5d",
-            "full": "https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg",
-            "regular": "https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=1080&fit=max",
-            "small": "https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=400&fit=max",
-            "thumb": "https://images.unsplash.com/photo-1417325384643-aac51acc9e5d?q=75&fm=jpg&w=200&fit=max"
-        },
-    }
+    useEffect(() => {
+        if(searchStatus === 'fulfilled')
+        {
+            dispatch(updateSearchItems(searchResult));
+        }
+    }, [searchStatus]);
 
     useEffect(() => {
         masonry.current = new Masonry('.home', {
@@ -76,35 +36,24 @@ function Home()
             percentPosition: true,
         })
 
-    }, []);
+    }, [searchResult]);
+
+    const photoContent = (searchResult) ?
+        ((searchResult.length > 0) ? 
+            <Fragment>
+                {searchResult.map((photo) => {
+                    return <div key={photo.id} className='home__item'>
+                            <Photo key={photo.id} photo={photo} />
+                    </div>;
+                })}
+            </Fragment> :
+            <Fragment>There are no photos for that query</Fragment>) :
+        <Fragment>Loading...</Fragment>
 
     return <>
         <section ref={homeContainer} className='home'>
             <div className='home__length'></div>
-            <div className='home__item'>
-                <Photo key={mockPhoto.id} photo={mockPhoto} />
-            </div>
-
-            <div className='home__item'>
-                <Photo key={mockPhoto2.id} photo={mockPhoto2} />
-            </div>
-
-            <div className='home__item'>
-                <Photo key={mockPhoto3.id} photo={mockPhoto3} />
-            </div>
-
-            <div className='home__item'>
-                <Photo key={mockPhoto2.id} photo={mockPhoto3} />
-            </div>
-
-            <div className='home__item'>
-                <Photo key={mockPhoto3.id} photo={mockPhoto3} />
-            </div>
-
-            <div className='home__item'>
-                <Photo key={mockPhoto.id} photo={mockPhoto2} />
-            </div>
-            
+            {photoContent}            
         </section>
     </>;
 }

@@ -8,8 +8,6 @@ import { Fragment } from 'react';
 
 function Photo({ photo, myPhotos = false })
 {
-    console.log(photo);
-
     const myPhotosContent = (!myPhotos) ?
         <Fragment></Fragment> :
         <Fragment>
@@ -33,7 +31,7 @@ function Photo({ photo, myPhotos = false })
             </div>
 
             {myPhotosContent}
-            <img style={{ height: photo.height + 'px' }} src={photo.urls.regular} alt={photo.description} />
+            <img style={{ height: (photo.height / 10) + 'px' }} src={photo.urls.regular} alt={photo.description} />
         </div>
     </>;
 }
