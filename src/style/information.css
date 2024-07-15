@@ -39,6 +39,8 @@
   font-weight: bold;
   padding-right: 2.5rem;
   padding-left: 2.5rem;
+  max-width: 55ch;
+  word-break: break-word;
 }
 .information__details {
   margin-top: 0.9rem;

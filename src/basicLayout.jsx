@@ -9,12 +9,15 @@ import { getNextQuote } from './util/quoteManager';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateSearchQuery } from './redux/slices/searchSlice';
+import { useState } from 'react';
+import BasicModal from './components/modal';
 
 function BasicLayout()
 {
     const quote = getNextQuote();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [settingsModal, updateSettingsModal] = useState(false);
 
     return <>
         <header className='header'>
@@ -23,7 +26,9 @@ function BasicLayout()
                 <nav className='header__menu__item' onClick={() => {
                     navigate('/');
                 }}><img src={homeImage} alt='Home' /> Home</nav>
-                <nav className='header__menu__item'><img src={searchSettingsImage} alt='Search settings' /> Search Settings</nav>
+                <nav className='header__menu__item' onClick={() => {
+                    updateSettingsModal(true);
+                }}><img src={searchSettingsImage} alt='Search settings' /> Search Settings</nav>
                 <nav className='header__menu__item' onClick={() => {
                     navigate('/my_photos');
                 }}><img src={myPhotosImage} alt='My photos' />My Photos</nav>
@@ -59,6 +64,10 @@ function BasicLayout()
                 </div>
             </div>
         </footer>
+
+
+
+        <BasicModal modalStatus={settingsModal} updateModalStatus={updateSettingsModal} searchSettings={true} />
     </>;
 }
 

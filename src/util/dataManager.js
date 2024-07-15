@@ -1,4 +1,6 @@
-const loadFromLocalStorage = () => {
+import { sortArray } from "./sorting";
+
+const loadFromLocalStorage = (searchSettings, searchType) => {
     const idList = localStorage.getItem('id-list');
 
     if(idList && idList !== '')
@@ -33,7 +35,51 @@ const loadFromLocalStorage = () => {
             }
         });
 
-        return resultArray;
+        return sortArray(resultArray, searchSettings, searchType);
+    } else {
+        return [];
+    }
+}
+
+const filterFromLocalStorage = (field, value, searchSettings, searchType) => {
+    const idList = localStorage.getItem('id-list');
+
+    if(idList && idList !== '')
+    {
+        const idArray = idList.split(',');
+        const resultArray = [];
+        idArray.forEach((id) => {
+            if(id !== '')
+            {
+                const createdAt = localStorage.getItem('photo-' + id +'-created');
+                const width = localStorage.getItem('photo-' + id +'-width');
+                const height = localStorage.getItem('photo-' + id +'-height');
+                const description = localStorage.getItem('photo-' + id + '-description');
+                const urlRegular = localStorage.getItem('photo-' + id +'-url-regular');
+                const urlFull = localStorage.getItem('photo-' + id +'-url-full');
+                const likes = localStorage.getItem('photo-' + id +'-likes');
+
+                const resultObject = {
+                    id: id,
+                    created_at: createdAt,
+                    width: width,
+                    height: height,
+                    description: description,
+                    likes: likes,
+                    urls: {
+                        regular: urlRegular,
+                        full: urlFull
+                    }
+                }
+
+                if(resultObject[field].includes(value))
+                {
+                    resultArray.push(resultObject);
+                }
+            }
+        });
+
+        return sortArray(resultArray, searchSettings, searchType);
     } else {
         return [];
     }
@@ -143,4 +189,4 @@ const updatePhoto = (id, field, value) => {
     }
 }
 
-export { loadFromLocalStorage, loadPhoto, appendPhoto, removePhoto, photoExist, updatePhoto }
+export { loadFromLocalStorage, filterFromLocalStorage, loadPhoto, appendPhoto, removePhoto, photoExist, updatePhoto }

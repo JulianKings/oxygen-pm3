@@ -6,11 +6,19 @@ export const searchSlice = createSlice({
         searchQuery: null,
         searchStatus: null,
         searchResult: null,
-        searchItems: []
+        searchItems: [],
+        searchSettings: 'default',
+        searchType: 'asc'
     },
     reducers: {
         updateSearchQuery: (state, action) => {
             state.searchQuery = action.payload;
+        },
+        updateSearchSettings: (state, action) => {
+            state.searchSettings = action.payload;
+        },
+        updateSearchType: (state, action) => {
+            state.searchType = action.payload;
         },
         updateSearchItems: (state, action) => {
             const result = action.payload;
@@ -26,6 +34,9 @@ export const searchSlice = createSlice({
 
                 state.searchItems = [...state.searchItems].concat(itemsToAdd);
             }
+        },
+        forceUpdateSearchItems: (state, action) => {
+            state.searchItems = action.payload;
         }
     },
     extraReducers(builder) {
@@ -47,6 +58,9 @@ export const searchSlice = createSlice({
 export const selectSearchQuery = state => state.search.searchQuery;
 export const selectSearchStatus = state => state.search.searchStatus;
 export const selectSearchResult = state => state.search.searchResult;
+export const selectSearchItems = state => state.search.searchItems;
+export const selectSearchSettings = state => state.search.searchSettings;
+export const selectSearchType = state => state.search.searchType;
 
 export const fetchImages = createAsyncThunk('search/fetchImages', async (searchQuery) => {
     const randomResponse = (searchQuery === null || searchQuery === '');
@@ -75,6 +89,6 @@ export const fetchImages = createAsyncThunk('search/fetchImages', async (searchQ
     return (randomResponse) ? (response) : (response.results);
 })
 
-export const { updateSearchQuery, updateSearchItems } = searchSlice.actions
+export const { updateSearchQuery, updateSearchItems, updateSearchSettings, updateSearchType, forceUpdateSearchItems } = searchSlice.actions
 
 export default searchSlice.reducer;

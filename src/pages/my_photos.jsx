@@ -1,12 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Fragment, useEffect, useRef } from 'react';
 import Photo from '../components/photo';
 import '../style/my_photos.css';
 import Masonry from 'masonry-layout';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectPhotoList, updatePhotoList } from '../redux/slices/favoriteSlice';
-import { loadFromLocalStorage } from '../util/dataManager';
+import { filterFromLocalStorage, loadFromLocalStorage } from '../util/dataManager';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import { selectSearchQuery, selectSearchSettings, selectSearchType } from '../redux/slices/searchSlice';
 
 function MyPhotos()
 {
@@ -15,11 +17,18 @@ function MyPhotos()
 
     const photoList = useSelector(selectPhotoList);
     const dispatch = useDispatch();
+    const searchQuery = useSelector(selectSearchQuery);
+    const searchSettings = useSelector(selectSearchSettings);
+    const searchType = useSelector(selectSearchType);
 
-    if(!photoList || (photoList && !photoList.length))
-    {
-        dispatch(updatePhotoList(loadFromLocalStorage()));
-    }
+    useEffect(() => {
+        if(searchQuery && searchQuery !== '')
+        {
+            dispatch(updatePhotoList(filterFromLocalStorage('description', searchQuery, searchSettings, searchType)));
+        } else {            
+            dispatch(updatePhotoList(loadFromLocalStorage(searchSettings, searchType)));
+        }
+    }, [searchQuery, searchSettings, searchType]);
 
     useEffect(() => {
         masonry.current = new Masonry('.my_photos', {
@@ -42,7 +51,7 @@ function MyPhotos()
             </Fragment> :
             <Fragment>
                 <div className='my_photos__caption'>
-                    You haven&apos;t saved any photos yet
+                    {(searchQuery) ? ("Couldn't find any photo with the description: " + searchQuery) : "You haven't saved any photos yet"}
                 </div>
             </Fragment>) :
         <Fragment>

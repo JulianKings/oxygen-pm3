@@ -4,10 +4,11 @@ import '../style/home.css';
 import Masonry from 'masonry-layout';
 import Photo from '../components/photo';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchImages, selectSearchQuery, selectSearchResult, selectSearchStatus } from '../redux/slices/searchSlice';
+import { fetchImages, forceUpdateSearchItems, selectSearchItems, selectSearchQuery, selectSearchResult, selectSearchSettings, selectSearchStatus, selectSearchType } from '../redux/slices/searchSlice';
 import { updateSearchItems } from '../redux/slices/searchSlice';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import { sortArray } from '../util/sorting';
 
 function Home()
 {
@@ -18,6 +19,9 @@ function Home()
     const searchQuery = useSelector(selectSearchQuery);
     const searchStatus = useSelector(selectSearchStatus);
     const searchResult = useSelector(selectSearchResult);
+    const searchItems = useSelector(selectSearchItems);
+    const searchSettings = useSelector(selectSearchSettings);
+    const searchType = useSelector(selectSearchType);
 
     useEffect(() => {
         dispatch(fetchImages(searchQuery));
@@ -31,6 +35,16 @@ function Home()
     }, [searchStatus]);
 
     useEffect(() => {
+        if(searchItems && searchItems.length > 0)
+        {
+            console.log(searchItems);
+            const sorted = sortArray(searchItems, searchSettings, searchType);
+            console.log(sorted);
+            dispatch(forceUpdateSearchItems(sorted));
+        }
+    }, [searchSettings, searchType])
+
+    useEffect(() => {
         masonry.current = new Masonry('.home', {
             itemSelector: '.home__item',
             columnWidth: '.home__length',
@@ -38,12 +52,12 @@ function Home()
             percentPosition: true,
         })
 
-    }, [searchResult]);
+    }, [searchItems]);
 
-    const photoContent = (searchResult) ?
-        ((searchStatus !== 'rejected' && searchResult.length > 0) ? 
+    const photoContent = (searchItems) ?
+        ((searchStatus !== 'rejected' && searchItems.length > 0) ? 
             <Fragment>
-                {searchResult.map((photo) => {
+                {searchItems.map((photo) => {
                     return <div key={photo.id} className='home__item'>
                             <Photo key={photo.id} photo={photo} />
                     </div>;
