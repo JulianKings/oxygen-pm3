@@ -12,11 +12,13 @@ import { loadPhoto } from '../util/dataManager';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import FileSaver from 'file-saver';
+import BasicModal from '../components/modal';
 
 function PhotoInformation()
 {
     const [loadingInformation, setLoadingInformation] = useState(true);
     const [photoInformation, setPhotoInformation] = useState(null);
+    const [descriptionModal, setDescriptionModal] = useState(false);
     const params = useParams();
 
 
@@ -27,6 +29,14 @@ function PhotoInformation()
             setPhotoInformation(loadPhoto(params['id']));
         }
     }, []);
+
+    useEffect(() => {
+        //update on close to be sure everything is up to date
+        if(!descriptionModal && photoInformation)
+        {
+            setPhotoInformation(loadPhoto(params['id']));
+        }
+    }, [descriptionModal])
 
     const photoDate = (photoInformation) ? (new Date(photoInformation.created_at)) : '';
     
@@ -42,6 +52,7 @@ function PhotoInformation()
         </Fragment> :
             (photoInformation) ? 
                 <Fragment>
+                    <BasicModal modalStatus={descriptionModal} updateModalStatus={setDescriptionModal} currentDescription={photoInformation.description} currentId={photoInformation.id} />
                     <div className="information">
                         <div className='information__carousel' >
                             <div className='information__carousel__main'>
@@ -85,7 +96,9 @@ function PhotoInformation()
                                 Download
                             </div>
 
-                            <div className='information__actions__item'>
+                            <div className='information__actions__item' onClick={() => {
+                                setDescriptionModal(true);
+                            }}>
                             <img src={editImage} alt='Edit image' />
                                 Edit description
                             </div>
