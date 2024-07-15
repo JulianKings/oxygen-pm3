@@ -5,6 +5,8 @@ import Masonry from 'masonry-layout';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectPhotoList, updatePhotoList } from '../redux/slices/favoriteSlice';
 import { loadFromLocalStorage } from '../util/dataManager';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 function MyPhotos()
 {
@@ -38,8 +40,18 @@ function MyPhotos()
                     </div>;
                 })}
             </Fragment> :
-            <Fragment>You haven&apos;t saved any photos yet</Fragment>) :
-        <Fragment>Loading...</Fragment>
+            <Fragment>
+                <div className='my_photos__caption'>
+                    You haven&apos;t saved any photos yet
+                </div>
+            </Fragment>) :
+        <Fragment>
+            <div className='my_photos__caption'>
+                <Box sx={{ display: 'flex' }}>
+                    <CircularProgress />
+                </Box>
+            </div>
+        </Fragment>
 
     return <>
         <section ref={myPhotosContainer} className='my_photos'>

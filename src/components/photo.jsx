@@ -9,6 +9,7 @@ import { appendPhoto, photoExist, removePhoto } from '../util/dataManager';
 import { useDispatch } from 'react-redux';
 import { appendPhotoToList, removePhotoFromList } from '../redux/slices/favoriteSlice';
 import { useNavigate } from 'react-router-dom';
+import FileSaver from 'file-saver';
 
 function Photo({ photo, myPhotos = false })
 {
@@ -59,7 +60,9 @@ function Photo({ photo, myPhotos = false })
                 }} />
             </div>
 
-            <div className='photo__download'>
+            <div className='photo__download' onClick={() => {
+                FileSaver.saveAs(photo.urls.full, photo.id + '.jpg');
+            }}>
                 <img src={downloadImage} alt='Download image' />
             </div>
 

@@ -9,6 +9,9 @@ import likesImage from '../assets/love.png';
 import { useParams } from 'react-router-dom';
 import { Fragment, useEffect, useState } from 'react';
 import { loadPhoto } from '../util/dataManager';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import FileSaver from 'file-saver';
 
 function PhotoInformation()
 {
@@ -30,7 +33,11 @@ function PhotoInformation()
     return (loadingInformation) ?
         <Fragment>
             <div className='information'>
-                <div className='information__caption'>Loading...</div>
+                <div className='information__caption'>
+                    <Box sx={{ display: 'flex' }}>
+                        <CircularProgress />
+                    </Box>
+                </div>
             </div>
         </Fragment> :
             (photoInformation) ? 
@@ -71,7 +78,9 @@ function PhotoInformation()
                         </div>
 
                         <div className='information__actions'>
-                            <div className='information__actions__item'>
+                            <div className='information__actions__item' onClick={() => {
+                                FileSaver.saveAs(photoInformation.urls.full, photoInformation.id + ".jpg");
+                            }}>
                                 <img src={downloadImage} alt='Download image' />
                                 Download
                             </div>

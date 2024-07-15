@@ -6,6 +6,8 @@ import Photo from '../components/photo';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchImages, selectSearchQuery, selectSearchResult, selectSearchStatus } from '../redux/slices/searchSlice';
 import { updateSearchItems } from '../redux/slices/searchSlice';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 function Home()
 {
@@ -47,8 +49,18 @@ function Home()
                     </div>;
                 })}
             </Fragment> :
-            <Fragment>There are no photos for that query</Fragment>) :
-        <Fragment>Loading...</Fragment>
+            <Fragment>
+                <div className='home__caption'>
+                    There are no photos for that query
+                </div>
+            </Fragment>) :
+        <Fragment>
+            <div className='home__caption'>
+                <Box sx={{ display: 'flex' }}>
+                    <CircularProgress />
+                </Box>
+            </div>
+        </Fragment>
 
     return <>
         <section ref={homeContainer} className='home'>
