@@ -8,15 +8,19 @@ import { Fragment, useState } from 'react';
 import { appendPhoto, photoExist, removePhoto } from '../util/dataManager';
 import { useDispatch } from 'react-redux';
 import { appendPhotoToList, removePhotoFromList } from '../redux/slices/favoriteSlice';
+import { useNavigate } from 'react-router-dom';
 
 function Photo({ photo, myPhotos = false })
 {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [lastUpdate, setLastUpdate] = useState(null);
     const myPhotosContent = (!myPhotos) ?
         <Fragment></Fragment> :
         <Fragment>
-            <div className='photo__information'>
+            <div className='photo__information' onClick={() => {
+                navigate('../photo/' + photo.id);
+            }}>
                 <img src={informationImage} alt='Get more information' />
             </div>
         </Fragment>;

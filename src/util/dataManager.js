@@ -106,6 +106,36 @@ const photoExist = (id) => {
     }
 }
 
+const loadPhoto = (id) => {
+    if(photoExist(id))
+    {
+        const createdAt = localStorage.getItem('photo-' + id +'-created');
+        const width = localStorage.getItem('photo-' + id +'-width');
+        const height = localStorage.getItem('photo-' + id +'-height');
+        const description = localStorage.getItem('photo-' + id + '-description');
+        const urlRegular = localStorage.getItem('photo-' + id +'-url-regular');
+        const urlFull = localStorage.getItem('photo-' + id +'-url-full');
+        const likes = localStorage.getItem('photo-' + id +'-likes');
+
+        const resultObject = {
+            id: id,
+            created_at: createdAt,
+            width: width,
+            height: height,
+            description: description,
+            likes: likes,
+            urls: {
+                regular: urlRegular,
+                full: urlFull
+            }
+        }
+
+        return resultObject;
+    } else {
+        return null;
+    }
+}
+
 const updatePhoto = (id, field, value) => {
     if(photoExist(id))
     {
@@ -113,4 +143,4 @@ const updatePhoto = (id, field, value) => {
     }
 }
 
-export { loadFromLocalStorage, appendPhoto, removePhoto, photoExist, updatePhoto }
+export { loadFromLocalStorage, loadPhoto, appendPhoto, removePhoto, photoExist, updatePhoto }

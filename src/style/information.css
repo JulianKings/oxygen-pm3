@@ -26,6 +26,8 @@
   color: white;
   font-size: 2rem;
   font-weight: bold;
+  padding-right: 2.5rem;
+  padding-left: 2.5rem;
 }
 .information__details {
   margin-top: 0.9rem;
@@ -33,7 +35,7 @@
   display: flex;
   gap: 1.5rem;
 }
-.information__details__width, .information__details__height, .information__details__calendar {
+.information__details__width, .information__details__height, .information__details__calendar, .information__details__likes {
   display: flex;
   align-items: center;
   gap: 0.35rem;

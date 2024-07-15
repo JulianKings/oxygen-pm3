@@ -5,7 +5,6 @@ import Masonry from 'masonry-layout';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectPhotoList, updatePhotoList } from '../redux/slices/favoriteSlice';
 import { loadFromLocalStorage } from '../util/dataManager';
-import { useNavigate } from 'react-router-dom';
 
 function MyPhotos()
 {
@@ -14,7 +13,6 @@ function MyPhotos()
 
     const photoList = useSelector(selectPhotoList);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     if(!photoList || (photoList && !photoList.length))
     {

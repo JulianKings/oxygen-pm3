@@ -28,6 +28,8 @@
         color: white;
         font-size: 2rem;
         font-weight: bold;
+        padding-right: 2.5rem;
+        padding-left: 2.5rem;
     }
 
     &__details {
@@ -36,7 +38,7 @@
         display: flex;
         gap: 1.5rem;
 
-        &__width, &__height, &__calendar {
+        &__width, &__height, &__calendar, &__likes {
             display: flex;
             align-items: center;
             gap: 0.35rem;
