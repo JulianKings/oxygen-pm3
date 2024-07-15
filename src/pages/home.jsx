@@ -30,16 +30,14 @@ function Home()
     useEffect(() => {
         if(searchStatus === 'fulfilled')
         {
-            dispatch(updateSearchItems(searchResult));
+            dispatch(forceUpdateSearchItems(searchResult));
         }
     }, [searchStatus]);
 
     useEffect(() => {
         if(searchItems && searchItems.length > 0)
         {
-            console.log(searchItems);
             const sorted = sortArray(searchItems, searchSettings, searchType);
-            console.log(sorted);
             dispatch(forceUpdateSearchItems(sorted));
         }
     }, [searchSettings, searchType])
@@ -52,9 +50,11 @@ function Home()
             percentPosition: true,
         })
 
+        console.log(searchItems);
+
     }, [searchItems]);
 
-    const photoContent = (searchItems) ?
+    const photoContent = (searchItems && searchStatus !== 'pending') ?
         ((searchStatus !== 'rejected' && searchItems.length > 0) ? 
             <Fragment>
                 {searchItems.map((photo) => {
