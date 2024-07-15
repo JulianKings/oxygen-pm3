@@ -39,7 +39,7 @@ function Home()
     }, [searchResult]);
 
     const photoContent = (searchResult) ?
-        ((searchResult.length > 0) ? 
+        ((searchStatus !== 'rejected' && searchResult.length > 0) ? 
             <Fragment>
                 {searchResult.map((photo) => {
                     return <div key={photo.id} className='home__item'>

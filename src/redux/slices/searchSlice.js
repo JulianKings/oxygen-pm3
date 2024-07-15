@@ -38,7 +38,7 @@ export const searchSlice = createSlice({
             state.searchResult = action.payload;
         })
         .addCase(fetchImages.rejected, (state, action) => {
-            state.searchResult = 'rejected';
+            state.searchStatus = 'rejected';
             state.searchResult = action.error.message;            
         })
     }

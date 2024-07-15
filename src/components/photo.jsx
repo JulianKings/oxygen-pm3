@@ -4,10 +4,15 @@ import bookmarkImage from '../assets/bookmark_filled.png';
 import bookmarkImageSaved from '../assets/bookmark_filled_saved.png';
 import downloadImage from '../assets/download.png';
 import informationImage from '../assets/information.png';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
+import { appendPhoto, photoExist, removePhoto } from '../util/dataManager';
+import { useDispatch } from 'react-redux';
+import { appendPhotoToList, removePhotoFromList } from '../redux/slices/favoriteSlice';
 
 function Photo({ photo, myPhotos = false })
 {
+    const dispatch = useDispatch();
+    const [lastUpdate, setLastUpdate] = useState(null);
     const myPhotosContent = (!myPhotos) ?
         <Fragment></Fragment> :
         <Fragment>
@@ -16,13 +21,37 @@ function Photo({ photo, myPhotos = false })
             </div>
         </Fragment>;
 
+    let imageSrc = bookmarkImage;
+    if(photoExist(photo.id))
+    {
+        imageSrc = bookmarkImageSaved;
+    }
+
     return <>
-        <div className='photo' >
+        <div key={lastUpdate} className='photo' >
             <div className='photo__bookmark'>
-                <img src={bookmarkImage} alt='Save as favorite' onMouseOver={(event) => {
-                    event.target.src = bookmarkImageSaved;
-                }} onMouseOut={(event) => {
-                    event.target.src = bookmarkImage;
+                <img src={imageSrc} alt='Save as favorite' 
+
+                onMouseOver={(event) => {
+                    event.target.src = (imageSrc === bookmarkImage) ? bookmarkImageSaved : bookmarkImage;
+                }} 
+
+                onMouseOut={(event) => {
+                    event.target.src = (imageSrc === bookmarkImage) ? bookmarkImage : bookmarkImageSaved;
+                }} 
+
+                onClick={(event) => {
+                    if(photoExist(photo.id))
+                    {
+                        removePhoto(photo.id);
+                        event.target.src = bookmarkImage;
+                        dispatch(removePhotoFromList(photo.id));
+                    } else {
+                        const result = appendPhoto(photo);
+                        dispatch(appendPhotoToList(result));
+                        setLastUpdate((new Date));
+                        event.target.src = bookmarkImageSaved;
+                    }
                 }} />
             </div>
 
