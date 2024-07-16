@@ -94,9 +94,18 @@
         max-width: 55ch;
         word-break: break-word;
         position: relative;
+
+        &__title {
+            display: none;
+        }
     }
 
     &__arrow {
+
+        &--inside {
+            display: none;
+        }
+
         position: relative;
         width: 100%;
 
@@ -119,6 +128,10 @@
         color: white;
         display: flex;
         gap: 1.5rem;
+
+        &__black {
+            display: none;
+        }
 
         &__width, &__height, &__calendar, &__likes {
             display: flex;
@@ -180,5 +193,184 @@
 
     100% {
         width: 35%;
+    }
+}
+
+@keyframes slideRightMobile {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideLeftMobile {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes growAnimMobile {
+    0% 
+    {
+        width: 60%;
+    }
+
+    100% {
+        width: 100%;
+    }
+}
+
+@keyframes appear {
+    0%, 50%
+    {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .information {
+
+        margin-top: 0rem;
+
+        &__carousel {
+            &__main {
+                width: 100%;
+                min-height: 0;
+
+                & img {
+                    border-radius: 0;
+                }
+
+                &--grow {
+                    width: 60%;
+                    animation: growAnimMobile 1s ease-in-out;
+                    animation-fill-mode: forwards;    
+                }
+            }
+
+            &__prev, &__next {
+                display: none;
+            }
+
+            &--right {
+                transform: translateX(100%);
+                animation: slideRightMobile 1s ease-in-out;
+                animation-fill-mode: forwards;
+            }
+    
+            &--left {
+                transform: translateX(-100%);
+                animation: slideLeftMobile 1s ease-in-out;
+                animation-fill-mode: forwards;
+            }
+        }
+
+        &__arrow {
+            position: absolute;
+            top: 40%;
+            width: 100%;
+    
+            &__prev, &__next {
+                display: none;
+                position: absolute;
+                top: 1.5rem;
+                padding: 0 0.3rem;
+            }
+
+            &--inside {
+                display: block;
+                animation: appear 2s ease-in-out;
+                z-index: 30;
+            }
+    
+            &__prev {
+                left: 0;
+            }
+    
+            &__next {
+                right: 0;
+            }
+        }
+
+        &__description {
+            margin-top: 0.35rem;
+            background-color: white;
+            color: black;
+            font-weight: 300;
+            font-size: 1rem;
+            width: 90%;
+            padding: 0.55rem 0.55rem;
+            border-radius: 0.25rem;
+            box-shadow: 0.2rem 0.2rem 0.4rem rgb(0, 0, 0, .25);
+
+            &__title {
+                display: block;
+                font-weight: bold;
+                font-size: 1.2rem;
+                margin-bottom: 0.2rem;
+            }
+        }
+
+        &__details {
+
+            &__white {
+                display: none;
+            }
+            
+            &__width, &__height, &__calendar, &__likes {
+                background-color: white;
+                color: black;
+                font-weight: 300;
+                font-size: 1rem;
+                width: 90%;
+                padding: 0.15rem 0.25rem;
+                border-radius: 0.25rem;
+                box-shadow: 0.2rem 0.2rem 0.4rem rgb(0, 0, 0, .25);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            &__black {
+                display: block;
+            }
+
+            &__second {
+                width: 30%;
+            }
+        }
+
+        &__actions {
+            margin-top: 1.2rem;
+            width: 85%;
+            display: flex;
+            gap: 2rem;
+    
+            &__item {
+                background-color: white;
+                color: black;
+                font-weight: 400;
+                font-size: 1.1rem;
+                width: 90%;
+                padding: 0.35rem 0.35rem;
+                border-radius: 0.25rem;
+                box-shadow: 0.2rem 0.2rem 0.4rem rgb(0, 0, 0, .25);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
     }
 }
