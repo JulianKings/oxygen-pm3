@@ -11,6 +11,10 @@
   align-items: center;
   grid-area: "header";
   box-shadow: 0.21rem 0.23rem 0.3rem rgba(0, 0, 0, 0.29);
+  visibility: visible;
+}
+.header--hidden {
+  visibility: hidden;
 }
 .header__menu {
   display: grid;
@@ -87,6 +91,32 @@
   font-size: 0.7rem;
   right: 0.75rem;
   top: 0.15rem;
+}
+.header__compressed {
+  position: fixed;
+  display: none;
+  z-index: 95;
+  background: white;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem 0;
+}
+.header__compressed--shown {
+  display: flex;
+  flex-direction: row;
+}
+.header__compressed__search_bar {
+  margin: 0;
+}
+.header__compressed__search_bar input {
+  background-color: #f2f2f2;
+}
+.header__compressed__search_bar input:focus {
+  box-shadow: none;
+}
+.header__compressed__item {
+  margin: 0 0.4rem;
+  padding: 0;
 }
 
 .footer {

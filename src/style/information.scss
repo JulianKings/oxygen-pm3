@@ -4,17 +4,66 @@
     flex-direction: column;
     align-items: center;
     padding-bottom: 3.5rem;
+    overflow-x: hidden;
 
     &__carousel {
         position:relative;
         width: 100%;
         max-width: 150ch;
+        min-height: 30rem;
+        animation: none;
+
+        &--right {
+            transform: translateX(33%);
+            animation: slideRight 1s ease-in-out;
+            animation-fill-mode: forwards;
+        }
+
+        &--left {
+            transform: translateX(-33%);
+            animation: slideLeft 1s ease-in-out;
+            animation-fill-mode: forwards;
+        }
 
         &__main {
-            position: relative;
-            left: 0; right: 0;
-            margin: 0 auto;
+            position: relative;            
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);   
             width: 35%;
+
+            &--grow {
+                width: 26%;
+                animation: growAnim 1s ease-in-out;
+                animation-fill-mode: forwards;
+
+            }
+
+            & img {
+                width: 100%;
+                border-radius: 0.56rem;
+            }
+        }
+
+        &__prev {
+            width: 26%;
+            position: absolute;            
+            top: 50%;
+            transform: translate(0, -50%);            
+            left: 1rem;
+
+            & img {
+                width: 100%;
+                border-radius: 0.56rem;
+            }
+        }
+
+        &__next {
+            width: 26%;
+            position: absolute;            
+            top: 50%;
+            transform: translate(0, -50%);
+            right: 1rem;
 
             & img {
                 width: 100%;
@@ -23,11 +72,46 @@
         }
     }
 
+    &__caption {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: 2rem;
+        color: white;
+        font-size: 1.4rem;
+        padding-right: 2.5rem;
+        padding-left: 2.5rem;
+    }
+
     &__description {
         margin-top: 2rem;
         color: white;
         font-size: 2rem;
         font-weight: bold;
+        padding-right: 2.5rem;
+        padding-left: 2.5rem;
+        max-width: 55ch;
+        word-break: break-word;
+        position: relative;
+    }
+
+    &__arrow {
+        position: relative;
+        width: 100%;
+
+        &__prev, &__next {
+            position: absolute;
+            top: 1.5rem;
+        }
+
+        &__prev {
+            left: 15%;
+        }
+
+        &__next {
+            right: 15%;
+        }
     }
 
     &__details {
@@ -36,7 +120,7 @@
         display: flex;
         gap: 1.5rem;
 
-        &__width, &__height, &__calendar {
+        &__width, &__height, &__calendar, &__likes {
             display: flex;
             align-items: center;
             gap: 0.35rem;
@@ -65,5 +149,36 @@
                 transform: scale(1.05);
             }
         }
+    }
+}
+
+@keyframes slideRight {
+    0% {
+        transform: translateX(33%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideLeft {
+    0% {
+        transform: translateX(-33%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes growAnim {
+    0% 
+    {
+        width: 26%;
+    }
+
+    100% {
+        width: 35%;
     }
 }

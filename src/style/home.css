@@ -10,5 +10,16 @@
 .home__item {
   width: 32.5%;
 }
+.home__caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+  color: white;
+  font-size: 1.4rem;
+  padding-right: 2.5rem;
+  padding-left: 2.5rem;
+}
 
 /*# sourceMappingURL=home.css.map */
