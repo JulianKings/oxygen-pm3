@@ -22,4 +22,16 @@
   padding-left: 2.5rem;
 }
 
+@media only screen and (max-width: 1000px) {
+  .my_photos {
+    margin: 1rem 2rem;
+  }
+  .my_photos__length {
+    width: 48.5%;
+  }
+  .my_photos__item {
+    width: 48.5%;
+  }
+}
+
 /*# sourceMappingURL=my_photos.css.map */

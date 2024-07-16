@@ -29,8 +29,6 @@ function PhotoInformation({slideProp = 'none'})
     const searchSettings = useSelector(selectSearchSettings);
     const searchType = useSelector(selectSearchType);
 
-    console.log(params['id']);
-
     useEffect(() => {
         if(loadingInformation)
         {

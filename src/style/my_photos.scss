@@ -24,3 +24,18 @@
         padding-left: 2.5rem;
     }
 }
+
+@media only screen and (max-width: 1000px) {
+
+    .my_photos {
+        margin: 1rem 2rem;
+
+        &__length {
+            width: 48.5%;
+        }
+    
+        &__item {
+            width: 48.5%;
+        }
+    }
+}

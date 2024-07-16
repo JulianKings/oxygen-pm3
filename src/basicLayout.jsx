@@ -4,7 +4,10 @@ import searchSettingsImage from './assets/search-settings.png';
 import homeImage from './assets/home.png';
 import myPhotosImage from './assets/photos.png';
 import cameraImage from './assets/camera-icon.png';
+import cameraWhiteImage from './assets/camera-icon-white.png';
 import linkedInImage from './assets/linkedin.png';
+import menuImage from './assets/menu_white.png';
+import menuBlackImage from './assets/menu_black.png';
 import { getNextQuote } from './util/quoteManager';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -62,6 +65,10 @@ function BasicLayout()
                 <nav className='header__menu__item' onClick={() => {
                     navigate('/my_photos');
                 }}><img src={myPhotosImage} alt='My photos' />My Photos</nav>
+
+                <nav className='header__menu__image'>
+                    <img src={menuImage} alt='Menu' />
+                </nav>
             </nav>
 
             <div className='header__quote'>
@@ -80,8 +87,9 @@ function BasicLayout()
         </header>
 
         <header ref={compressedHeaderContainer} className='header header__compressed'>
-            <div className='header__menu__item header__menu__item--title'>
-                <img src={cameraImage} alt='Camera Icon' />
+            <div className='header__menu__item header__compressed__item header__menu__item--title'>
+                <img src={cameraImage} className='header__menu__item--base' alt='Camera Icon' />
+                <img src={cameraWhiteImage} className='header__menu__item--extra' alt='Camera Icon' />
             </div>
             
             <div className='header__search_bar header__compressed__search_bar'>
@@ -103,6 +111,10 @@ function BasicLayout()
             <nav className='header__menu__item header__compressed__item' onClick={() => {
                 navigate('/my_photos');
             }}><img src={myPhotosImage} alt='My photos' /></nav>
+
+            <nav className='header__menu__image'>
+                <img src={menuBlackImage} alt='Menu' />
+            </nav>
 
 
             

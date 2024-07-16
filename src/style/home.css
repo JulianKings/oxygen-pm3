@@ -22,4 +22,16 @@
   padding-left: 2.5rem;
 }
 
+@media only screen and (max-width: 1000px) {
+  .home {
+    margin: 1rem 2rem;
+  }
+  .home__length {
+    width: 47%;
+  }
+  .home__item {
+    width: 47%;
+  }
+}
+
 /*# sourceMappingURL=home.css.map */
