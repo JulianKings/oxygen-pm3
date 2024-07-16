@@ -24,6 +24,9 @@
   align-items: center;
   margin-top: 0.94rem;
 }
+.header__menu__image {
+  display: none;
+}
 .header__menu__item {
   justify-self: center;
   background-color: white;
@@ -36,6 +39,9 @@
 }
 .header__menu__item:hover {
   transform: scale(1.1);
+}
+.header__menu__item--extra {
+  display: none;
 }
 .header__menu__item--title {
   justify-self: left;
@@ -119,6 +125,84 @@
   padding: 0;
 }
 
+.openable_header {
+  display: none;
+}
+
+@media only screen and (max-width: 1000px) {
+  .header__menu {
+    width: 100%;
+    padding-left: 1rem;
+    grid-template-columns: 1fr 12%;
+  }
+  .header__menu__item {
+    display: none;
+  }
+  .header__menu__item--title, .header__menu__item--extra {
+    display: flex;
+  }
+  .header__menu__item--base {
+    display: none;
+  }
+  .header__menu__image {
+    display: block;
+  }
+  .header__quote {
+    padding: 0 2.5rem;
+  }
+  .header__search_bar {
+    width: 75%;
+  }
+  .header__compressed {
+    padding-right: 0.8rem;
+  }
+  .header__compressed__item {
+    background-color: #000;
+    padding: 0;
+    margin: 0;
+    width: 2.8rem;
+  }
+  .header__compressed__item img {
+    object-fit: cover;
+    object-position: -0.5rem 0;
+  }
+  .header__compressed__search_bar {
+    width: 70%;
+    margin: 0 0.5rem;
+  }
+  .openable_header {
+    display: flex;
+    position: fixed;
+    background-color: white;
+    width: 100%;
+    overflow: hidden;
+    z-index: 100;
+    box-shadow: 0.21rem 0.23rem 0.3rem rgba(0, 0, 0, 0.29);
+    max-height: 0;
+    transition: max-height 1.2s ease-in-out;
+  }
+  .openable_header--open {
+    max-height: 30vh;
+  }
+  .openable_header__cross {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: 0.6rem;
+  }
+  .openable_header__menu {
+    width: 98%;
+    padding: 0.3rem 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.2rem;
+  }
+  .openable_header__menu__item {
+    display: flex;
+    gap: 0.3rem;
+  }
+}
 .footer {
   grid-area: "footer";
   align-self: end;
@@ -154,6 +238,11 @@
   align-items: center;
 }
 
+@media only screen and (max-width: 1000px) {
+  .footer__container {
+    width: 90%;
+  }
+}
 @font-face {
   font-family: "offline_open_sans_italic";
   src: url("./fonts/opensans-italic-variablefont_wdthwght-webfont.woff2") format("woff2"), url("./fonts/opensans-italic-variablefont_wdthwght-webfont.woff") format("woff");

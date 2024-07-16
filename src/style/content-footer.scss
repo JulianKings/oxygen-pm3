@@ -41,3 +41,11 @@
         align-items: center;
     }
 }
+
+@media only screen and (max-width: 1000px) {
+    .footer {
+        &__container {
+            width: 90%;
+        }
+    }
+}

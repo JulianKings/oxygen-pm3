@@ -6,6 +6,12 @@ import calendarImage from '../assets/calendar.png';
 import editImage from '../assets/edit.png';
 import downloadImage from '../assets/download_white.png';
 import likesImage from '../assets/love.png';
+import blackWidthImage from '../assets/width_black.png';
+import blackHeightImage from '../assets/height_black.png';
+import blackCalendarImage from '../assets/calendar_black.png';
+import blackEditImage from '../assets/edit_black.png';
+import blackDownloadImage from '../assets/download_black.png';
+import blackLikesImage from '../assets/love_black.png';
 import arrowLeftImage from '../assets/arrow-left.png';
 import arrowRightImage from '../assets/arrow-right.png';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -28,8 +34,6 @@ function PhotoInformation({slideProp = 'none'})
     const navigate = useNavigate();
     const searchSettings = useSelector(selectSearchSettings);
     const searchType = useSelector(selectSearchType);
-
-    console.log(params['id']);
 
     useEffect(() => {
         if(loadingInformation)
@@ -89,6 +93,30 @@ function PhotoInformation({slideProp = 'none'})
                             (slideProp === 'right') ? 'information__carousel__main information__carousel__main--grow' : 'information__carousel__main'
                         }>
                                 <img src={photoInformation.urls.regular} alt='Image' />
+
+                                <div className='information__arrow'>
+                            { (prevPhoto) ? 
+                                <Fragment>
+                                    <div className='information__arrow__prev information__arrow--inside'>
+                                        <img src={arrowLeftImage} onClick={() => {
+                                            navigate('../left_photo/' + prevPhoto.id);
+                                        }} alt='Previous Image' />
+                                    </div>
+                                </Fragment> :
+                                <Fragment></Fragment>
+                            }
+
+                            { (nextPhoto) ? 
+                                <Fragment>
+                                    <div className='information__arrow__next information__arrow--inside'>
+                                        <img src={arrowRightImage} onClick={() => {
+                                            navigate('../right_photo/' + nextPhoto.id);
+                                        }} alt='Next Image' />
+                                    </div>
+                                </Fragment> :
+                                <Fragment></Fragment>
+                            }
+                        </div>
                             </div>
 
                             { (nextPhoto) ? 
@@ -104,6 +132,8 @@ function PhotoInformation({slideProp = 'none'})
                         </div>
 
                         <div className='information__description'>
+                            <span className='information__description__title'>Description</span>
+                            
                             {photoInformation.description}
                         </div>
 
@@ -133,24 +163,28 @@ function PhotoInformation({slideProp = 'none'})
 
                         <div className='information__details'>
                             <div className='information__details__width'>
-                                <img src={widthImage} alt='Width' />
+                                <img src={widthImage} className='information__details__white' alt='Width' />
+                                <img src={blackWidthImage} className='information__details__black' alt='Width' />
                                 <span>{photoInformation.width}px</span>
                             </div>
 
-                            <div className='information__details__width'>
-                                <img src={heightImage} alt='Width' />
+                            <div className='information__details__height'>
+                                <img src={heightImage} className='information__details__white' alt='Height' />
+                                <img src={blackHeightImage} className='information__details__black' alt='Height' />
                                 <span>{photoInformation.height}px</span>
                             </div>
 
                             <div className='information__details__calendar'>
-                                <img src={calendarImage} alt='Created at' />
+                                <img src={calendarImage} className='information__details__white' alt='Created at' />
+                                <img src={blackCalendarImage} className='information__details__black' alt='Created at' />
                                 <span>{photoDate.toDateString()}</span>
                             </div>
                         </div>
 
-                        <div className='information__details'>
+                        <div className='information__details information__details__second'>
                             <div className='information__details__likes'>
-                                <img src={likesImage} alt='Likes' />
+                                <img src={likesImage} className='information__details__white' alt='Likes' />
+                                <img src={blackLikesImage} className='information__details__black' alt='Likes' />
                                 <span>{photoInformation.likes} likes</span>
                             </div>                            
                         </div>
@@ -159,14 +193,16 @@ function PhotoInformation({slideProp = 'none'})
                             <div className='information__actions__item' onClick={() => {
                                 FileSaver.saveAs(photoInformation.urls.full, photoInformation.id + ".jpg");
                             }}>
-                                <img src={downloadImage} alt='Download image' />
+                                <img src={downloadImage} alt='Download image' className='information__details__white' />
+                                <img src={blackDownloadImage} alt='Download image' className='information__details__black' />
                                 Download
                             </div>
 
                             <div className='information__actions__item' onClick={() => {
                                 setDescriptionModal(true);
                             }}>
-                            <img src={editImage} alt='Edit image' />
+                                <img src={editImage} alt='Edit image' className='information__details__white' />
+                                <img src={blackEditImage} alt='Edit image' className='information__details__black' />
                                 Edit description
                             </div>
                         </div>

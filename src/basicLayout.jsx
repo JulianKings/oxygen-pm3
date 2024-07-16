@@ -4,7 +4,11 @@ import searchSettingsImage from './assets/search-settings.png';
 import homeImage from './assets/home.png';
 import myPhotosImage from './assets/photos.png';
 import cameraImage from './assets/camera-icon.png';
+import cameraWhiteImage from './assets/camera-icon-white.png';
 import linkedInImage from './assets/linkedin.png';
+import menuImage from './assets/menu_white.png';
+import menuBlackImage from './assets/menu_black.png';
+import crossImage from './assets/cross_icon.png';
 import { getNextQuote } from './util/quoteManager';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,6 +25,7 @@ function BasicLayout()
     const searchQuery = useSelector(selectSearchQuery);
     const headerContainer = useRef(null);
     const compressedHeaderContainer = useRef(null);
+    const openableHeader = useRef(null);
 
     useEffect(() => {
         const onScroll = () => 
@@ -50,6 +55,30 @@ function BasicLayout()
     }, []);
 
     return <>
+        <header ref={openableHeader} className='openable_header'>
+            <nav className='openable_header__menu'>
+                <nav className='openable_header__cross'>
+                    <img src={crossImage} alt='Menu' onClick={() => {
+                        if(openableHeader.current)
+                        {
+                            openableHeader.current.classList.toggle('openable_header--open', false);
+                        }
+                    }} />
+                </nav>
+
+                <nav className='openable_header__menu__item' onClick={() => {
+                    navigate('/');
+                }}><img src={homeImage} alt='Home' /> Home</nav>
+                <nav className='openable_header__menu__item' onClick={() => {
+                    updateSettingsModal(true);
+                }}><img src={searchSettingsImage} alt='Search settings' /> Search Settings</nav>
+                <nav className='openable_header__menu__item' onClick={() => {
+                    navigate('/my_photos');
+                }}><img src={myPhotosImage} alt='My photos' />My Photos</nav>
+            </nav>
+
+        </header>
+
         <header ref={headerContainer} className='header'>
             <nav className='header__menu'>
                 <div className='header__menu__item header__menu__item--title'><img src={cameraImage} alt='Camera Icon' /><span>Oxygen</span>pics</div>
@@ -62,6 +91,20 @@ function BasicLayout()
                 <nav className='header__menu__item' onClick={() => {
                     navigate('/my_photos');
                 }}><img src={myPhotosImage} alt='My photos' />My Photos</nav>
+
+                <nav className='header__menu__image'>
+                    <img src={menuImage} alt='Menu' tabIndex={1} onClick={() => {
+                        if(openableHeader.current)
+                        {
+                            openableHeader.current.classList.toggle('openable_header--open', true);
+                        }
+                    }} onBlur={() => {
+                        if(openableHeader.current)
+                        {
+                            openableHeader.current.classList.toggle('openable_header--open', false);
+                        }
+                    }} />
+                </nav>
             </nav>
 
             <div className='header__quote'>
@@ -80,8 +123,9 @@ function BasicLayout()
         </header>
 
         <header ref={compressedHeaderContainer} className='header header__compressed'>
-            <div className='header__menu__item header__menu__item--title'>
-                <img src={cameraImage} alt='Camera Icon' />
+            <div className='header__menu__item header__compressed__item header__menu__item--title'>
+                <img src={cameraImage} className='header__menu__item--base' alt='Camera Icon' />
+                <img src={cameraWhiteImage} className='header__menu__item--extra' alt='Camera Icon' />
             </div>
             
             <div className='header__search_bar header__compressed__search_bar'>
@@ -103,6 +147,23 @@ function BasicLayout()
             <nav className='header__menu__item header__compressed__item' onClick={() => {
                 navigate('/my_photos');
             }}><img src={myPhotosImage} alt='My photos' /></nav>
+
+            <nav className='header__menu__image'>
+                <img src={menuBlackImage} alt='Menu' tabIndex={1}
+                    onClick={() => {
+                        if(openableHeader.current)
+                        {
+                            openableHeader.current.classList.toggle('openable_header--open', true);
+                        }
+                    }}
+
+                    onBlur={() => {
+                        if(openableHeader.current)
+                        {
+                            openableHeader.current.classList.toggle('openable_header--open', false);
+                        }
+                    }} />
+            </nav>
 
 
             
