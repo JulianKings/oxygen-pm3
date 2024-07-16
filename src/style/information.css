@@ -4,20 +4,60 @@
   flex-direction: column;
   align-items: center;
   padding-bottom: 3.5rem;
+  overflow-x: hidden;
 }
 .information__carousel {
   position: relative;
   width: 100%;
   max-width: 150ch;
+  min-height: 30rem;
+  animation: none;
+}
+.information__carousel--right {
+  transform: translateX(33%);
+  animation: slideRight 1s ease-in-out;
+  animation-fill-mode: forwards;
+}
+.information__carousel--left {
+  transform: translateX(-33%);
+  animation: slideLeft 1s ease-in-out;
+  animation-fill-mode: forwards;
 }
 .information__carousel__main {
   position: relative;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 35%;
 }
+.information__carousel__main--grow {
+  width: 26%;
+  animation: growAnim 1s ease-in-out;
+  animation-fill-mode: forwards;
+}
 .information__carousel__main img {
+  width: 100%;
+  border-radius: 0.56rem;
+}
+.information__carousel__prev {
+  width: 26%;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  left: 1rem;
+}
+.information__carousel__prev img {
+  width: 100%;
+  border-radius: 0.56rem;
+}
+.information__carousel__next {
+  width: 26%;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  right: 1rem;
+}
+.information__carousel__next img {
   width: 100%;
   border-radius: 0.56rem;
 }
@@ -41,6 +81,21 @@
   padding-left: 2.5rem;
   max-width: 55ch;
   word-break: break-word;
+  position: relative;
+}
+.information__arrow {
+  position: relative;
+  width: 100%;
+}
+.information__arrow__prev, .information__arrow__next {
+  position: absolute;
+  top: 1.5rem;
+}
+.information__arrow__prev {
+  left: 15%;
+}
+.information__arrow__next {
+  right: 15%;
 }
 .information__details {
   margin-top: 0.9rem;
@@ -73,6 +128,31 @@
 }
 .information__actions__item:hover {
   transform: scale(1.05);
+}
+
+@keyframes slideRight {
+  0% {
+    transform: translateX(33%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+@keyframes slideLeft {
+  0% {
+    transform: translateX(-33%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+@keyframes growAnim {
+  0% {
+    width: 26%;
+  }
+  100% {
+    width: 35%;
+  }
 }
 
 /*# sourceMappingURL=information.css.map */

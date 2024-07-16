@@ -5,7 +5,6 @@ import Masonry from 'masonry-layout';
 import Photo from '../components/photo';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchImages, forceUpdateSearchItems, selectSearchItems, selectSearchQuery, selectSearchResult, selectSearchSettings, selectSearchStatus, selectSearchType } from '../redux/slices/searchSlice';
-import { updateSearchItems } from '../redux/slices/searchSlice';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { sortArray } from '../util/sorting';

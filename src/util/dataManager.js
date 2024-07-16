@@ -189,4 +189,40 @@ const updatePhoto = (id, field, value) => {
     }
 }
 
-export { loadFromLocalStorage, filterFromLocalStorage, loadPhoto, appendPhoto, removePhoto, photoExist, updatePhoto }
+const loadPrevPhoto = (id, searchSettings, searchType) =>
+{
+    const photoArray = loadFromLocalStorage(searchSettings, searchType);
+    const photoIndex = photoArray.findIndex((photo) => photo.id === id);
+    if(photoIndex !== -1)
+    {
+        if(photoIndex === 0)
+        {
+            return photoArray[(photoArray.length - 1)];
+        } else {
+            return photoArray[(photoIndex - 1)]
+        }
+        
+    } else {
+        return null;
+    }
+}
+
+const loadNextPhoto = (id, searchSettings, searchType) =>
+{
+    const photoArray = loadFromLocalStorage(searchSettings, searchType);
+    const photoIndex = photoArray.findIndex((photo) => photo.id === id);
+    if(photoIndex !== -1)
+    {
+        if(photoIndex === (photoArray.length - 1))
+        {
+            return photoArray[0];
+        } else {
+            return photoArray[(photoIndex + 1)]
+        }
+        
+    } else {
+        return null;
+    }
+}
+
+export { loadFromLocalStorage, filterFromLocalStorage, loadPhoto, appendPhoto, removePhoto, photoExist, updatePhoto, loadPrevPhoto, loadNextPhoto }

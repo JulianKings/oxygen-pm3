@@ -20,6 +20,14 @@ const Router = () => {
                       {   
                         path: "photo/:id",
                         element: <PhotoInformation />
+                      },
+                      {   
+                        path: "left_photo/:id",
+                        element: <PhotoInformation slideProp={'left'} />
+                      },
+                      {   
+                        path: "right_photo/:id",
+                        element: <PhotoInformation slideProp={'right'} />
                       }
                   ],
               }
