@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Fragment, useEffect, useRef } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import Photo from '../components/photo';
 import '../style/my_photos.css';
 import Masonry from 'masonry-layout';
@@ -9,6 +9,7 @@ import { filterFromLocalStorage, loadFromLocalStorage } from '../util/dataManage
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { selectSearchQuery, selectSearchSettings, selectSearchType } from '../redux/slices/searchSlice';
+import { Chip } from '@mui/material';
 
 function MyPhotos()
 {
@@ -20,6 +21,8 @@ function MyPhotos()
     const searchQuery = useSelector(selectSearchQuery);
     const searchSettings = useSelector(selectSearchSettings);
     const searchType = useSelector(selectSearchType);
+    const [tagList, setTagList] = useState([]);
+    const [currentTag, setCurrentTag] = useState('');
 
     useEffect(() => {
         if(searchQuery && searchQuery !== '')
@@ -38,12 +41,30 @@ function MyPhotos()
             percentPosition: true,
         })
 
-    }, [photoList]);
+    }, [photoList, currentTag]);
+
+    let finalList;
+
+    if(photoList && photoList.length > 0)
+    {
+        if(currentTag && currentTag !== '')
+        {
+            finalList = photoList.filter((photo) => photo.tag === currentTag);
+        } else {
+            finalList = photoList;
+        }
+    }
 
     const photoContent = (photoList) ?
         ((photoList.length > 0) ? 
             <Fragment>
-                {photoList.map((photo) => {
+                {finalList.map((photo) => {
+                    if(!tagList.includes(photo.tag))
+                    {
+                        const newList = tagList.concat([photo.tag]);
+                        setTagList(newList)
+                    }
+
                     return <div key={photo.id} className='my_photos__item'>
                             <Photo key={photo.id} photo={photo} myPhotos={true} />
                     </div>;
@@ -63,7 +84,17 @@ function MyPhotos()
         </Fragment>
 
     return <>
-        <section ref={myPhotosContainer} className='my_photos'>
+        <section className='my_photos__tags'>
+            {tagList.map((tag) => {
+                return <Fragment key={tag}>
+                    <Chip color='primary' size='small' label={tag} onClick={() => {
+                        setCurrentTag(tag);
+                    }} />
+                </Fragment>;
+            })}
+        </section>
+                
+        <section key={currentTag} ref={myPhotosContainer} className='my_photos'>
             <div className='my_photos__length'></div>
             {photoContent}
             

@@ -54,11 +54,15 @@ function PhotoInformation({slideProp = 'none'})
     const photoDate = (photoInformation) ? (new Date(photoInformation.created_at)) : '';
 
     let nextPhoto = null;
+    let superNextPhoto = null;
     let prevPhoto = null;
+    let superPrevPhoto = null;
 
     if(photoInformation) {
         nextPhoto = loadNextPhoto(photoInformation.id, searchSettings, searchType);
+        superNextPhoto = loadNextPhoto(nextPhoto.id, searchSettings, searchType);
         prevPhoto = loadPrevPhoto(photoInformation.id, searchSettings, searchType);
+        superPrevPhoto = loadPrevPhoto(prevPhoto.id, searchSettings, searchType);
     }
     
     return (loadingInformation) ?
@@ -80,6 +84,10 @@ function PhotoInformation({slideProp = 'none'})
                         } >
                             { (prevPhoto) ? 
                                 <Fragment>
+                                    <div className='information__carousel__prev information__carousel__prev--far'>
+                                        <img src={superPrevPhoto.urls.regular} alt='Previous Image' />
+                                    </div>
+
                                     <div className='information__carousel__prev'>
                                         <img src={prevPhoto.urls.regular} onClick={() => {
                                             navigate('../left_photo/' + prevPhoto.id);
@@ -125,6 +133,10 @@ function PhotoInformation({slideProp = 'none'})
                                         <img src={nextPhoto.urls.regular} onClick={() => {
                                             navigate('../right_photo/' + nextPhoto.id);
                                         }} alt='Next Image' />
+                                    </div>
+
+                                    <div className='information__carousel__next information__carousel__next--far'>
+                                        <img src={superNextPhoto.urls.regular} alt='Next Image' />
                                     </div>
                                 </Fragment> :
                                 <Fragment></Fragment>

@@ -12,9 +12,9 @@ import crossImage from './assets/cross_icon.png';
 import { getNextQuote } from './util/quoteManager';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSearchQuery, updateSearchQuery } from './redux/slices/searchSlice';
 import { useEffect, useRef, useState } from 'react';
 import BasicModal from './components/modal';
+import { selectSearchQuery, updateSearchQuery } from './redux/slices/searchSlice';
 
 function BasicLayout()
 {

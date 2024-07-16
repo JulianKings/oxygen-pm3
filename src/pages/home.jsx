@@ -1,13 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Fragment, useEffect, useRef } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import '../style/home.css';
 import Masonry from 'masonry-layout';
 import Photo from '../components/photo';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchImages, forceUpdateSearchItems, selectSearchItems, selectSearchQuery, selectSearchResult, selectSearchSettings, selectSearchStatus, selectSearchType } from '../redux/slices/searchSlice';
+import { fetchImages, forceUpdateSearchItems, increaseSearchCurrentPage, selectSearchCurrentPage, selectSearchIncreasePage, selectSearchItems, selectSearchMaxPages, selectSearchQuery, selectSearchResult, selectSearchSettings, selectSearchStatus, selectSearchType, updateSearchIncreasePage, updateSearchItems } from '../redux/slices/searchSlice';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { sortArray } from '../util/sorting';
+import { useLocation } from 'react-router-dom';
 
 function Home()
 {
@@ -21,15 +22,39 @@ function Home()
     const searchItems = useSelector(selectSearchItems);
     const searchSettings = useSelector(selectSearchSettings);
     const searchType = useSelector(selectSearchType);
+    const searchMaxPages = useSelector(selectSearchMaxPages);
+    const searchCurrentPage = useSelector(selectSearchCurrentPage);
+    const searchIncreasePage = useSelector(selectSearchIncreasePage);
+    const location = useLocation();
+    const searchMaxPage = useSelector(selectSearchMaxPages);
+    const [searchChanged, setSearchChanged] = useState(false);
 
     useEffect(() => {
-        dispatch(fetchImages(searchQuery));
+        dispatch(fetchImages({searchQuery: searchQuery, page: searchCurrentPage}));
+        setSearchChanged(true);
     }, [searchQuery])
+
+    useEffect(() => {
+        console.log(searchIncreasePage);
+        if(searchMaxPages > 1 && searchIncreasePage)
+        {
+            const nextPage = searchCurrentPage + 1;
+            dispatch(fetchImages({searchQuery: searchQuery, page: nextPage}));
+            dispatch(increaseSearchCurrentPage());
+            dispatch(updateSearchIncreasePage(false));
+        }
+    }, [searchIncreasePage])
 
     useEffect(() => {
         if(searchStatus === 'fulfilled')
         {
-            dispatch(forceUpdateSearchItems(searchResult));
+            if(searchChanged)
+            {
+                dispatch(forceUpdateSearchItems(searchResult));
+                setSearchChanged(false);
+            } else {
+                dispatch(updateSearchItems(searchResult));
+            }
         }
     }, [searchStatus]);
 
@@ -49,16 +74,43 @@ function Home()
             percentPosition: true,
         })
 
-        console.log(searchItems);
-
     }, [searchItems]);
+
+    useEffect(() => {
+        const onScroll = () => 
+        {
+            const percentage = ((document.documentElement.scrollTop + document.body.scrollTop) / (document.documentElement.scrollHeight - document.documentElement.clientHeight) * 100);
+            const roundedPercentage = Math.round(percentage);
+
+            if(roundedPercentage > 90 && location.pathname === '/')
+            {
+                console.log('a');
+                console.log(searchIncreasePage);
+                console.log(searchCurrentPage);
+                console.log(searchMaxPage);
+                if(searchCurrentPage < searchMaxPage)
+                {
+                
+                    if(!searchIncreasePage)
+                    {
+                        dispatch(updateSearchIncreasePage(true));
+                    }
+                }
+
+            }
+        }
+        // clean up code
+        window.removeEventListener('scroll', onScroll);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
 
     const photoContent = (searchItems && searchStatus !== 'pending') ?
         ((searchStatus !== 'rejected' && searchItems.length > 0) ? 
             <Fragment>
                 {searchItems.map((photo) => {
                     return <div key={photo.id} className='home__item'>
-                            <Photo key={photo.id} photo={photo} />
+                            <Photo key={photo.id} photo={photo} searchQuery={searchQuery} />
                     </div>;
                 })}
             </Fragment> :
@@ -76,7 +128,7 @@ function Home()
         </Fragment>
 
     return <>
-        <section ref={homeContainer} className='home'>
+        <section key={searchQuery} ref={homeContainer} className='home'>
             <div className='home__length'></div>
             {photoContent}            
         </section>

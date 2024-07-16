@@ -17,6 +17,14 @@ const loadFromLocalStorage = (searchSettings, searchType) => {
                 const urlRegular = localStorage.getItem('photo-' + id +'-url-regular');
                 const urlFull = localStorage.getItem('photo-' + id +'-url-full');
                 const likes = localStorage.getItem('photo-' + id +'-likes');
+                let tag = '';
+                if(localStorage.getItem('photo-' + id +'-tag') == null)
+                {
+                    tag = 'untagged';
+                    localStorage.setItem('photo-' + id +'-tag', 'untagged');
+                } else {
+                    tag = localStorage.getItem('photo-' + id +'-tag');
+                }
 
                 const resultObject = {
                     id: id,
@@ -28,7 +36,8 @@ const loadFromLocalStorage = (searchSettings, searchType) => {
                     urls: {
                         regular: urlRegular,
                         full: urlFull
-                    }
+                    },
+                    tag: tag
                 }
 
                 resultArray.push(resultObject);
@@ -58,7 +67,15 @@ const filterFromLocalStorage = (field, value, searchSettings, searchType) => {
                 const urlRegular = localStorage.getItem('photo-' + id +'-url-regular');
                 const urlFull = localStorage.getItem('photo-' + id +'-url-full');
                 const likes = localStorage.getItem('photo-' + id +'-likes');
-
+                let tag = '';
+                if(localStorage.getItem('photo-' + id +'-tag') == null)
+                {
+                    tag = 'untagged';
+                    localStorage.setItem('photo-' + id +'-tag', 'untagged');
+                } else {
+                    tag = localStorage.getItem('photo-' + id +'-tag');
+                }
+                
                 const resultObject = {
                     id: id,
                     created_at: createdAt,
@@ -69,7 +86,8 @@ const filterFromLocalStorage = (field, value, searchSettings, searchType) => {
                     urls: {
                         regular: urlRegular,
                         full: urlFull
-                    }
+                    },
+                    tag: tag
                 }
 
                 if(resultObject[field].includes(value))
@@ -85,7 +103,7 @@ const filterFromLocalStorage = (field, value, searchSettings, searchType) => {
     }
 }
 
-const appendPhoto = (photo) =>
+const appendPhoto = (photo, searchQuery) =>
 {
     const idList = localStorage.getItem('id-list');
 
@@ -104,6 +122,7 @@ const appendPhoto = (photo) =>
     localStorage.setItem('photo-' + photo.id +'-url-regular', photo.urls.regular);
     localStorage.setItem('photo-' + photo.id +'-url-full', photo.urls.full);
     localStorage.setItem('photo-' + photo.id +'-likes', photo.likes);
+    localStorage.setItem('photo-' + photo.id +'-tag', searchQuery);
 
     const resultObject = {
         id: photo.id,
@@ -140,15 +159,18 @@ const removePhoto = (id) => {
     localStorage.removeItem('photo-' + id +'-url-regular');
     localStorage.removeItem('photo-' + id +'-url-full');
     localStorage.removeItem('photo-' + id +'-likes');
+    localStorage.removeItem('photo-' + id +'-tag');
 }
 
 const photoExist = (id) => {
     const idList = localStorage.getItem('id-list');
-    if(idList)
+
+    if(idList === null)
     {
-        return idList.includes(id + ',');
-    } else {
+        localStorage.setItem('id-list', '');
         return false;
+    } else {
+        return idList.includes(id + ',');
     }
 }
 

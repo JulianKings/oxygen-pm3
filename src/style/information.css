@@ -46,6 +46,9 @@
   transform: translate(0, -50%);
   left: 1rem;
 }
+.information__carousel__prev--far {
+  transform: translate(-133%, -50%);
+}
 .information__carousel__prev img {
   width: 100%;
   border-radius: 0.56rem;
@@ -56,6 +59,9 @@
   top: 50%;
   transform: translate(0, -50%);
   right: 1rem;
+}
+.information__carousel__next--far {
+  transform: translate(133%, -50%);
 }
 .information__carousel__next img {
   width: 100%;

@@ -52,6 +52,10 @@
             transform: translate(0, -50%);            
             left: 1rem;
 
+            &--far {
+                transform: translate(-133%, -50%)
+            }
+
             & img {
                 width: 100%;
                 border-radius: 0.56rem;
@@ -64,6 +68,10 @@
             top: 50%;
             transform: translate(0, -50%);
             right: 1rem;
+
+            &--far {
+                transform: translate(133%, -50%)
+            }
 
             & img {
                 width: 100%;
