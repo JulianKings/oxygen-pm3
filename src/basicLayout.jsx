@@ -10,9 +10,9 @@ import menuImage from './assets/menu_white.png';
 import menuBlackImage from './assets/menu_black.png';
 import crossImage from './assets/cross_icon.png';
 import { getNextQuote } from './util/quoteManager';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSearchQuery, updateSearchQuery } from './redux/slices/searchSlice';
+import { selectSearchCurrentPage, selectSearchIncreasePage, selectSearchMaxPages, selectSearchQuery, updateSearchIncreasePage, updateSearchQuery } from './redux/slices/searchSlice';
 import { useEffect, useRef, useState } from 'react';
 import BasicModal from './components/modal';
 
@@ -26,6 +26,10 @@ function BasicLayout()
     const headerContainer = useRef(null);
     const compressedHeaderContainer = useRef(null);
     const openableHeader = useRef(null);
+    const location = useLocation();
+    const searchCurrentPage = useSelector(selectSearchCurrentPage);
+    const searchMaxPage = useSelector(selectSearchMaxPages);
+    const searchIncreasePage = useSelector(selectSearchIncreasePage);
 
     useEffect(() => {
         const onScroll = () => 
@@ -46,6 +50,18 @@ function BasicLayout()
                     headerContainer.current.classList.toggle('header--hidden', false);
                     compressedHeaderContainer.current.classList.toggle('header__compressed--shown', false);
                 }
+            }
+
+            if(roundedPercentage > 95 && location.pathname === '/')
+            {
+                if(searchCurrentPage < searchMaxPage)
+                {
+                    if(!searchIncreasePage)
+                    {
+                        dispatch(updateSearchIncreasePage(true));
+                    }
+                }
+
             }
         }
         // clean up code

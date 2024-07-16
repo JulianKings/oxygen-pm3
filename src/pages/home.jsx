@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Fragment, useEffect, useRef } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import '../style/home.css';
 import Masonry from 'masonry-layout';
 import Photo from '../components/photo';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchImages, forceUpdateSearchItems, selectSearchItems, selectSearchQuery, selectSearchResult, selectSearchSettings, selectSearchStatus, selectSearchType } from '../redux/slices/searchSlice';
+import { fetchImages, forceUpdateSearchItems, increaseSearchCurrentPage, selectSearchCurrentPage, selectSearchIncreasePage, selectSearchItems, selectSearchMaxPages, selectSearchQuery, selectSearchResult, selectSearchSettings, selectSearchStatus, selectSearchType, updateSearchIncreasePage, updateSearchItems } from '../redux/slices/searchSlice';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { sortArray } from '../util/sorting';
@@ -21,15 +21,37 @@ function Home()
     const searchItems = useSelector(selectSearchItems);
     const searchSettings = useSelector(selectSearchSettings);
     const searchType = useSelector(selectSearchType);
+    const searchMaxPages = useSelector(selectSearchMaxPages);
+    const searchCurrentPage = useSelector(selectSearchCurrentPage);
+    const searchIncreasePage = useSelector(selectSearchIncreasePage);
+    const [searchChanged, setSearchChanged] = useState(false);
 
     useEffect(() => {
-        dispatch(fetchImages(searchQuery));
+        dispatch(fetchImages({searchQuery: searchQuery, page: searchCurrentPage}));
+        setSearchChanged(true);
     }, [searchQuery])
+
+    useEffect(() => {
+        console.log(searchIncreasePage);
+        if(searchMaxPages > 1 && searchIncreasePage)
+        {
+            const nextPage = searchCurrentPage + 1;
+            dispatch(fetchImages({searchQuery: searchQuery, page: nextPage}));
+            dispatch(increaseSearchCurrentPage());
+            dispatch(updateSearchIncreasePage(false));
+        }
+    }, [searchIncreasePage])
 
     useEffect(() => {
         if(searchStatus === 'fulfilled')
         {
-            dispatch(forceUpdateSearchItems(searchResult));
+            if(searchChanged)
+            {
+                dispatch(forceUpdateSearchItems(searchResult));
+                setSearchChanged(false);
+            } else {
+                dispatch(updateSearchItems(searchResult));
+            }
         }
     }, [searchStatus]);
 
@@ -48,8 +70,6 @@ function Home()
             gutter: 10,
             percentPosition: true,
         })
-
-        console.log(searchItems);
 
     }, [searchItems]);
 
