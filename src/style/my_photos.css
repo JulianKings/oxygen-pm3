@@ -3,6 +3,7 @@
   display: grid;
   width: 95%;
   max-width: 150ch;
+  animation: appear 0.6s ease-in-out;
 }
 .my_photos__length {
   width: 32.5%;
@@ -21,7 +22,22 @@
   padding-right: 2.5rem;
   padding-left: 2.5rem;
 }
+.my_photos__tags {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.6rem;
+  width: 90%;
+  justify-content: center;
+}
 
+@keyframes appear {
+  0% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 @media only screen and (max-width: 1000px) {
   .my_photos {
     margin: 1rem 2rem;

@@ -11,7 +11,7 @@ import { appendPhotoToList, removePhotoFromList } from '../redux/slices/favorite
 import { useNavigate } from 'react-router-dom';
 import FileSaver from 'file-saver';
 
-function Photo({ photo, myPhotos = false })
+function Photo({ photo, myPhotos = false, searchQuery = 'untagged' })
 {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -51,11 +51,12 @@ function Photo({ photo, myPhotos = false })
                         removePhoto(photo.id);
                         event.target.src = bookmarkImage;
                         dispatch(removePhotoFromList(photo.id));
-                    } else {
-                        const result = appendPhoto(photo);
-                        dispatch(appendPhotoToList(result));
                         setLastUpdate((new Date));
+                    } else {
+                        const result = appendPhoto(photo, searchQuery);
+                        dispatch(appendPhotoToList(result));
                         event.target.src = bookmarkImageSaved;
+                        setLastUpdate((new Date));
                     }
                 }} />
             </div>
@@ -74,7 +75,8 @@ function Photo({ photo, myPhotos = false })
 
 Photo.propTypes = {
     photo: PropTypes.object,
-    myPhotos: PropTypes.bool
+    myPhotos: PropTypes.bool,
+    searchQuery: PropTypes.string
 }
 
 export default Photo;

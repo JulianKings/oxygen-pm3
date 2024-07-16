@@ -8,6 +8,7 @@ import { fetchImages, forceUpdateSearchItems, increaseSearchCurrentPage, selectS
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { sortArray } from '../util/sorting';
+import { useLocation } from 'react-router-dom';
 
 function Home()
 {
@@ -24,6 +25,8 @@ function Home()
     const searchMaxPages = useSelector(selectSearchMaxPages);
     const searchCurrentPage = useSelector(selectSearchCurrentPage);
     const searchIncreasePage = useSelector(selectSearchIncreasePage);
+    const location = useLocation();
+    const searchMaxPage = useSelector(selectSearchMaxPages);
     const [searchChanged, setSearchChanged] = useState(false);
 
     useEffect(() => {
@@ -73,12 +76,41 @@ function Home()
 
     }, [searchItems]);
 
+    useEffect(() => {
+        const onScroll = () => 
+        {
+            const percentage = ((document.documentElement.scrollTop + document.body.scrollTop) / (document.documentElement.scrollHeight - document.documentElement.clientHeight) * 100);
+            const roundedPercentage = Math.round(percentage);
+
+            if(roundedPercentage > 90 && location.pathname === '/')
+            {
+                console.log('a');
+                console.log(searchIncreasePage);
+                console.log(searchCurrentPage);
+                console.log(searchMaxPage);
+                if(searchCurrentPage < searchMaxPage)
+                {
+                
+                    if(!searchIncreasePage)
+                    {
+                        dispatch(updateSearchIncreasePage(true));
+                    }
+                }
+
+            }
+        }
+        // clean up code
+        window.removeEventListener('scroll', onScroll);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
+
     const photoContent = (searchItems && searchStatus !== 'pending') ?
         ((searchStatus !== 'rejected' && searchItems.length > 0) ? 
             <Fragment>
                 {searchItems.map((photo) => {
                     return <div key={photo.id} className='home__item'>
-                            <Photo key={photo.id} photo={photo} />
+                            <Photo key={photo.id} photo={photo} searchQuery={searchQuery} />
                     </div>;
                 })}
             </Fragment> :
@@ -96,7 +128,7 @@ function Home()
         </Fragment>
 
     return <>
-        <section ref={homeContainer} className='home'>
+        <section key={searchQuery} ref={homeContainer} className='home'>
             <div className='home__length'></div>
             {photoContent}            
         </section>
