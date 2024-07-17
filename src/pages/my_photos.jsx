@@ -86,7 +86,7 @@ function MyPhotos()
     return <>
         <section className='my_photos__tags'>
             {tagList.map((tag) => {
-                return <Fragment key={tag}>
+                return (tag === null) ? '' : <Fragment key={tag}>
                     <Chip color='primary' size='small' label={tag} onClick={() => {
                         setCurrentTag(tag);
                     }} />

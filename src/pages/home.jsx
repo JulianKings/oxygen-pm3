@@ -4,7 +4,7 @@ import '../style/home.css';
 import Masonry from 'masonry-layout';
 import Photo from '../components/photo';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchImages, forceUpdateSearchItems, increaseSearchCurrentPage, selectSearchCurrentPage, selectSearchIncreasePage, selectSearchItems, selectSearchMaxPages, selectSearchQuery, selectSearchResult, selectSearchSettings, selectSearchStatus, selectSearchType, updateSearchIncreasePage, updateSearchItems } from '../redux/slices/searchSlice';
+import { fetchImages, forceUpdateSearchItems, selectSearchItems, selectSearchMaxPages, selectSearchQuery, selectSearchResult, selectSearchSettings, selectSearchStatus, selectSearchType, updateSearchItems } from '../redux/slices/searchSlice';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { sortArray } from '../util/sorting';
@@ -23,26 +23,26 @@ function Home()
     const searchSettings = useSelector(selectSearchSettings);
     const searchType = useSelector(selectSearchType);
     const searchMaxPages = useSelector(selectSearchMaxPages);
-    const searchCurrentPage = useSelector(selectSearchCurrentPage);
-    const searchIncreasePage = useSelector(selectSearchIncreasePage);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [increasePage, setIncreasePage] = useState(false);
     const location = useLocation();
     const searchMaxPage = useSelector(selectSearchMaxPages);
     const [searchChanged, setSearchChanged] = useState(false);
 
     useEffect(() => {
-        dispatch(fetchImages({searchQuery: searchQuery, page: searchCurrentPage}));
+        dispatch(fetchImages({searchQuery: searchQuery, page: currentPage}));
         setSearchChanged(true);
     }, [searchQuery])
 
     useEffect(() => {
-        if(searchMaxPages > 1 && searchIncreasePage)
+        if(searchMaxPages > 1 && increasePage)
         {
-            const nextPage = searchCurrentPage + 1;
+            const nextPage = currentPage + 1;
             dispatch(fetchImages({searchQuery: searchQuery, page: nextPage}));
-            dispatch(increaseSearchCurrentPage());
-            dispatch(updateSearchIncreasePage(false));
+            setCurrentPage(nextPage);
+            setIncreasePage(false);
         }
-    }, [searchIncreasePage])
+    }, [increasePage])
 
     useEffect(() => {
         if(searchStatus === 'fulfilled')
@@ -83,11 +83,11 @@ function Home()
 
             if(roundedPercentage > 90 && location.pathname === '/')
             {
-                if(searchCurrentPage < searchMaxPage)
+                if(currentPage < searchMaxPage)
                 {                
-                    if(!searchIncreasePage)
+                    if(!increasePage)
                     {
-                        dispatch(updateSearchIncreasePage(true));
+                        setIncreasePage(true)
                     }
                 }
 
@@ -97,7 +97,7 @@ function Home()
         window.removeEventListener('scroll', onScroll);
         window.addEventListener('scroll', onScroll, { passive: true });
         return () => window.removeEventListener('scroll', onScroll);
-    }, [searchCurrentPage, searchMaxPage]);
+    }, [currentPage, searchMaxPage]);
 
     const photoContent = (searchItems && searchStatus !== 'pending') ?
         ((searchStatus !== 'rejected' && searchItems.length > 0) ? 
@@ -125,6 +125,13 @@ function Home()
         <section key={searchQuery} ref={homeContainer} className='home'>
             <div className='home__length'></div>
             {photoContent}            
+        </section>
+        <section className='home__more'>
+            {(searchItems && searchItems.length > 0) ? (searchQuery === '' || searchQuery === null) ? <Fragment>
+                <button type='button' className='home__more__button' onClick={() => {
+                    dispatch(fetchImages({searchQuery: '', page: 1}));    
+                }}>Load more</button>
+            </Fragment> : '' : ''}
         </section>
     </>;
 }

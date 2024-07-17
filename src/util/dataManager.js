@@ -122,7 +122,7 @@ const appendPhoto = (photo, searchQuery) =>
     localStorage.setItem('photo-' + photo.id +'-url-regular', photo.urls.regular);
     localStorage.setItem('photo-' + photo.id +'-url-full', photo.urls.full);
     localStorage.setItem('photo-' + photo.id +'-likes', photo.likes);
-    localStorage.setItem('photo-' + photo.id +'-tag', searchQuery);
+    localStorage.setItem('photo-' + photo.id +'-tag', (searchQuery === null) ? 'untagged' : searchQuery);
 
     const resultObject = {
         id: photo.id,
