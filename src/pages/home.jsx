@@ -35,7 +35,6 @@ function Home()
     }, [searchQuery])
 
     useEffect(() => {
-        console.log(searchIncreasePage);
         if(searchMaxPages > 1 && searchIncreasePage)
         {
             const nextPage = searchCurrentPage + 1;
@@ -84,13 +83,8 @@ function Home()
 
             if(roundedPercentage > 90 && location.pathname === '/')
             {
-                console.log('a');
-                console.log(searchIncreasePage);
-                console.log(searchCurrentPage);
-                console.log(searchMaxPage);
                 if(searchCurrentPage < searchMaxPage)
-                {
-                
+                {                
                     if(!searchIncreasePage)
                     {
                         dispatch(updateSearchIncreasePage(true));
@@ -103,7 +97,7 @@ function Home()
         window.removeEventListener('scroll', onScroll);
         window.addEventListener('scroll', onScroll, { passive: true });
         return () => window.removeEventListener('scroll', onScroll);
-    }, []);
+    }, [searchCurrentPage, searchMaxPage]);
 
     const photoContent = (searchItems && searchStatus !== 'pending') ?
         ((searchStatus !== 'rejected' && searchItems.length > 0) ? 
