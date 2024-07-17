@@ -9,9 +9,7 @@ export const searchSlice = createSlice({
         searchItems: [],
         searchSettings: 'default',
         searchType: 'asc',
-        searchCurrentPage: 1,
         searchMaxPages: 1,
-        searchIncreasePage: false
     },
     reducers: {
         updateSearchQuery: (state, action) => {
@@ -19,12 +17,6 @@ export const searchSlice = createSlice({
         },
         updateSearchSettings: (state, action) => {
             state.searchSettings = action.payload;
-        },
-        increaseSearchCurrentPage: (state) => {
-            state.searchCurrentPage += 1;
-        },
-        updateSearchIncreasePage: (state, action) => {
-            state.searchIncreasePage = action.payload;
         },
         updateSearchType: (state, action) => {
             state.searchType = action.payload;
@@ -71,9 +63,7 @@ export const selectSearchResult = state => state.search.searchResult;
 export const selectSearchItems = state => state.search.searchItems;
 export const selectSearchSettings = state => state.search.searchSettings;
 export const selectSearchType = state => state.search.searchType;
-export const selectSearchCurrentPage = state => state.search.searchCurrentPage;
 export const selectSearchMaxPages = state => state.search.searchMaxPages;
-export const selectSearchIncreasePage = state => state.search.searchIncreasePage;
 
 
 export const fetchImages = createAsyncThunk('search/fetchImages', async (resultObject) => {
@@ -111,6 +101,6 @@ export const fetchImages = createAsyncThunk('search/fetchImages', async (resultO
 })
 
 export const { updateSearchQuery, updateSearchItems, updateSearchSettings, 
-updateSearchType, forceUpdateSearchItems, increaseSearchCurrentPage, updateSearchIncreasePage } = searchSlice.actions
+updateSearchType, forceUpdateSearchItems } = searchSlice.actions
 
 export default searchSlice.reducer;

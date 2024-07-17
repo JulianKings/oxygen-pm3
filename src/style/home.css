@@ -22,6 +22,24 @@
   padding-right: 2.5rem;
   padding-left: 2.5rem;
 }
+.home__more {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+.home__more__button {
+  padding: 0.25rem 0.4rem;
+  background-color: whitesmoke;
+  color: black;
+  border: 0;
+  margin: 1.4rem 0;
+  font-size: 1.2rem;
+  border-radius: 0.25rem;
+  transition: transform 0.8s ease-in-out;
+}
+.home__more__button:hover {
+  transform: scale(1.1);
+}
 
 @keyframes appear {
   0% {
